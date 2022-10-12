@@ -1,6 +1,7 @@
 --local _, _ = pcall(vim.cmd, "set background=light")
 local _, _ = pcall(vim.cmd, "colorscheme tokyonight-day")
 vim.opt.relativenumber = false
+vim.cmd "set whichwrap=b,s,[,]"
 
 --read in background color
 local sl_hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
@@ -93,7 +94,7 @@ lualine_cfg.options.theme = lualine_theme
 
 local left_pad = {
   function()
-    return " "
+    return " ["
   end,
   padding = 0,
   color = function()
@@ -103,7 +104,7 @@ local left_pad = {
 
 local right_pad = {
   function()
-    return " "
+    return "] "
   end,
   padding = 0,
   color = function()
