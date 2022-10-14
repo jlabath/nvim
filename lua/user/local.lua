@@ -1,5 +1,5 @@
 --local _, _ = pcall(vim.cmd, "set background=light")
-local _, _ = pcall(vim.cmd, "colorscheme tokyonight-day")
+local _, _ = pcall(function() vim.cmd "colorscheme tokyonight-day" end)
 vim.opt.relativenumber = false
 vim.cmd "set whichwrap=b,s,[,]"
 
@@ -8,17 +8,17 @@ local sl_hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
 local sl_bg_hex = string.format("#%06x", sl_hl.background) -- convert the background to hex
 
 --- lualine setup start
-local gray = "#32363e"
-local dark_gray = "#282C34"
+--local gray = "#32363e"
+--local dark_gray = "#282C34"
 
 --local line_bg = "#ffffff"
 --this does not quite work yet TODO
 local line_bg = sl_bg_hex
---local red = "#D16969"
+local red = "#D16969"
 local blue = "#569CD6"
---local green = "#6A9955"
+local green = "#6A9955"
 local cyan = "#4EC9B0"
---local orange = "#CE9178"
+local orange = "#CE9178"
 local indent = "#CE9178"
 --local yellow = "#DCDCAA"
 local yellow_orange = "#D7BA7D"
@@ -112,6 +112,33 @@ local right_pad = {
   end,
 }
 
+--table for mode colors
+local mode_color = {
+  n = blue,
+  i = orange,
+  v = "#b668cd",
+  [""] = "#b668cd",
+  V = "#b668cd",
+  -- c = '#B5CEA8',
+  -- c = '#D7BA7D',
+  c = "#46a6b2",
+  no = "#D16D9E",
+  s = green,
+  S = orange,
+  [""] = orange,
+  ic = red,
+  R = "#D16D9E",
+  Rv = red,
+  cv = blue,
+  ce = blue,
+  r = red,
+  rm = "#46a6b2",
+  ["r?"] = "#46a6b2",
+  ["!"] = "#46a6b2",
+  t = red,
+}
+
+
 
 local mode = {
   -- mode component
@@ -121,7 +148,7 @@ local mode = {
     -- return "  "
   end,
   color = function()
-    return { fg = blue, bg = line_bg }
+    return { fg = mode_color[vim.fn.mode()], bg = line_bg }
   end,
   padding = 0,
 }
