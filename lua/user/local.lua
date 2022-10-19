@@ -139,13 +139,15 @@ local mode_color = {
 }
 
 
+local get_mode = require('lualine.utils.mode').get_mode
 
 local mode = {
   -- mode component
   function()
     -- return "▊"
-    return " "
+    -- return " "
     -- return "  "
+    return string.lower(get_mode()) .. " "
   end,
   color = function()
     return { fg = mode_color[vim.fn.mode()], bg = line_bg }
