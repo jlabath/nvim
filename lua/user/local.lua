@@ -233,3 +233,18 @@ vim.api.nvim_set_hl(0, "SLWarning", { fg = yellow_orange, bg = sl_bg_hex })
 --now apply the setup
 require("lualine").setup(lualine_cfg)
 --- lualine setup end
+
+--add mapping for non autosave
+-- Functional wrapper for mapping custom keybindings
+function map(mode, lhs, rhs, opts)
+  local options = { noremap = true }
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+--map("n", ",<Space>", ":nohlsearch<CR>", { silent = true })
+--map("n", "<Leader>", ":<C-u>WhichKey ','<CR>" { silent = true })
+--map("n", "<Leader>?", ":WhichKey ','<CR>")
+map("n", "<F2>", ":noa w<CR>")

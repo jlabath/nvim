@@ -94,10 +94,10 @@ return {
         lens = {
           enable = false,
         },
-        --        checkOnSave = {
-        --          command = "clippy",
-        --          extraArgs = { "--target-dir", "/tmp/rust-analyzer-check" },
-        --        },
+        checkOnSave = {
+          --     --          command = "clippy",
+          extraArgs = { "--target-dir", "/tmp/rust-analyzer-check-nvim" },
+        },
       },
     },
   },
