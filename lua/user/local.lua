@@ -234,17 +234,55 @@ vim.api.nvim_set_hl(0, "SLWarning", { fg = yellow_orange, bg = sl_bg_hex })
 require("lualine").setup(lualine_cfg)
 --- lualine setup end
 
---add mapping for non autosave
--- Functional wrapper for mapping custom keybindings
-function map(mode, lhs, rhs, opts)
-  local options = { noremap = true }
-  if opts then
-    options = vim.tbl_extend("force", options, opts)
+--formatting shenanigans
+--here we deny the ones that are true outright
+local denylist = {
+  someweirdserver = true,
+  --clangd = true,
+  --jsonls = true,
+  --tsserver = true,
+  --stylelint_lsp = true,
+}
+
+local denylist_by_filetype = {
+  -- lua = {
+  --   sumneko_lua = true,
+  -- },
+  -- markdown = {
+  --   html = true,
+  -- },
+  rust = {
+    null_ls = true,
+  }
+}
+
+--if this function returns true we allow the client for formatting
+local function get_filter(bufnr)
+  return function(client)
+    if denylist[client.name] then
+      return false
+    end
+
+    local filetype = vim.api.nvim_buf_get_option(bufnr or 0, "filetype")
+    local denylist_for_filetype = denylist_by_filetype[filetype]
+    if not denylist_for_filetype or true then
+      return true
+    end
+
+    return not denylist_for_filetype[client.name]
   end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
---map("n", ",<Space>", ":nohlsearch<CR>", { silent = true })
---map("n", "<Leader>", ":<C-u>WhichKey ','<CR>" { silent = true })
---map("n", "<Leader>?", ":WhichKey ','<CR>")
-map("n", "<F2>", ":noa w<CR>")
+local function simple_save()
+  --get current bufnr
+  local bufnr = vim.api.nvim_get_current_buf()
+  --format
+  vim.lsp.buf.format {
+    filter = get_filter(bufnr),
+    bufnr = bufnr
+  }
+  --save
+  vim.cmd "noa w"
+end
+
+vim.keymap.set('n', '<F2>', simple_save)
