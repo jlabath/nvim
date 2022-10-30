@@ -286,3 +286,35 @@ local function simple_save()
 end
 
 vim.keymap.set('n', '<F2>', simple_save)
+
+--lsp restart that maybe used to restart broekn lsp servers e.g. elm
+--this however does not make cargo check happen even if it does restart rust-analyzer
+local function lsp_restart()
+  --save
+  vim.cmd "noa w"
+  --request stop of all lsp clients
+  vim.lsp.stop_client(vim.lsp.get_active_clients())
+  for _, client in pairs(vim.lsp.get_active_clients()) do
+    --end time
+    local stop_at = os.clock() + 1
+    while stop_at > os.clock() do
+      if client.is_stopped() then
+        break
+      end
+    end
+    --final check of client plus force shutdown
+    if not client.is_stopped() then
+      client.stop(true)
+    end
+    --more waiting for client to go away
+    stop_at = os.clock() + 1
+    while stop_at > os.clock() do
+      if client.is_stopped() then
+        break
+      end
+    end
+    --consider logging here if that darn thing is still alive at this point
+  end
+  --force reload which will start LSP and therefore check
+  vim.cmd "edit"
+end

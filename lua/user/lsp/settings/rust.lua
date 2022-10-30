@@ -89,13 +89,19 @@ return {
     end,
     capabilities = require("user.lsp.handlers").capabilities,
 
+    --these settings match rust analyzer config
+    --https://rust-analyzer.github.io/manual.html#configuration
     settings = {
       ["rust-analyzer"] = {
         lens = {
           enable = false,
         },
+        --disabling on save rust analyzer runs
+        --checkOnSave = {
+        --  enable = false,
+        --},
         checkOnSave = {
-          --     --          command = "clippy",
+          --          command = "clippy", --check is the default command
           extraArgs = { "--target-dir", "/tmp/rust-analyzer-check-nvim" },
         },
       },
