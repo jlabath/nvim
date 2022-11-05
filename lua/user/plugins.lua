@@ -67,7 +67,8 @@ return packer.startup(function(use)
   use "rcarriga/nvim-notify"
 
   -- Lua dev
-  use "folke/lua-dev.nvim"
+  --use "folke/lua-dev.nvim"
+  use "folke/neodev.nvim"
 
   -- colors
   use "NvChad/nvim-colorizer.lua"
