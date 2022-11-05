@@ -9,7 +9,7 @@ if not status_ok_1 then
 end
 
 local servers = {
-  "codelldb", -- Dap server for rust
+  --"codelldb", -- Dap server for rust
   "cssls",
   "cssmodules_ls",
   "emmet_ls",
