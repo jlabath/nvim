@@ -1,7 +1,8 @@
 --local _, _ = pcall(vim.cmd, "set background=light")
 local _, _ = pcall(function() vim.cmd "colorscheme tokyonight-day" end)
 vim.opt.relativenumber = false
-vim.cmd "set whichwrap=b,s,[,]"
+--whichwrap line wrapping
+vim.cmd "set whichwrap=b,s"
 
 --read in background color
 local sl_hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
