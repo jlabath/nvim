@@ -275,13 +275,13 @@ local function get_filter(bufnr)
 end
 
 local function simple_save()
-  --get current bufnr
-  local bufnr = vim.api.nvim_get_current_buf()
-  --format
-  vim.lsp.buf.format {
-    filter = get_filter(bufnr),
-    bufnr = bufnr
-  }
+  -- --get current bufnr
+  -- local bufnr = vim.api.nvim_get_current_buf()
+  -- --format
+  -- vim.lsp.buf.format {
+  --   filter = get_filter(bufnr),
+  --   bufnr = bufnr
+  -- }
   --save
   vim.cmd "noa w"
 end
@@ -319,3 +319,5 @@ local function lsp_restart()
   --force reload which will start LSP and therefore check
   vim.cmd "edit"
 end
+
+vim.keymap.set('n', '<F3>', lsp_restart)
